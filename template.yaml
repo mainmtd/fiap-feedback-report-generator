@@ -1,0 +1,27 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: (fiap-feedback-report-generator) - Gerador de arquivo PDF de report
+
+Resources:
+  ReportGeneratorFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: ReportGenerator
+      Handler: report.ReportGenerator::handleRequest
+      Runtime: java17
+      CodeUri: ./src
+      MemorySize: 512
+      Timeout: 60
+      Policies:
+        - S3WritePolicy:
+            BucketName: !ImportValue ReportBucketName
+      Environment:
+        Variables:
+          REPORT_BUCKET: !ImportValue ReportBucketName
+
+Outputs:
+  ReportGeneratorArn:
+    Description: ARN da função ReportGenerator
+    Value: !GetAtt ReportGeneratorFunction.Arn
+    Export:
+      Name: ReportGeneratorArn
