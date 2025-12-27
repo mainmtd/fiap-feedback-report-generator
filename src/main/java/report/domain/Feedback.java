@@ -27,6 +27,10 @@ public class Feedback {
         return descricao;
     }
 
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
     public Integer getNota() {
         return nota;
     }

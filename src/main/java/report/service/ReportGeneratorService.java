@@ -18,12 +18,15 @@ public class ReportGeneratorService {
     @Inject
     S3Client s3Client;
 
+    @Inject
+    PdfUtil pdfUtil;
+
     public String generateReport(Report report) {
         LOGGER.infov("Iniciando a geração do relatório em PDF");
-        ByteArrayOutputStream pdfStream = PdfUtil.generateReport(
+
+        ByteArrayOutputStream pdfStream = pdfUtil.generateReport(
                 report.getFeedbacks(),
                 report.getCountByDay(),
-                report.getCountByStatus(),
                 report.getCountByUrgency(),
                 report.getCountByNota()
         );

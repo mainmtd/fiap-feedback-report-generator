@@ -16,11 +16,13 @@ Resources:
   ReportGeneratorFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: ReportGenerator
-      CodeUri: target/fiap-feedback-report-generator.jar
-      Handler: report.ReportGeneratorWorker::handleRequest
+      Runtime: java17
+      Handler: io.quarkus.amazon.lambda.runtime.QuarkusStreamHandler
+      CodeUri: target/function.zip
+
       Environment:
         Variables:
+          QUARKUS_LAMBDA_HANDLER: reportGeneratorWorker
           FEEDBACK_TABLE: !ImportValue FeedbackTableName
           REPORT_BUCKET: !ImportValue ReportBucketName
           REPORT_TOPIC_ARN: !ImportValue ReportTopicArn
@@ -29,8 +31,11 @@ Resources:
             TableName: !ImportValue FeedbackTableName
         - S3WritePolicy:
             BucketName: !ImportValue ReportBucketName
-        - SNSPublishMessagePolicy:
-            TopicName: !ImportValue ReportTopicArn
+        - Statement:
+            - Effect: Allow
+              Action:
+                - sns:Publish
+              Resource: !ImportValue ReportTopicArn
       Events:
         WeeklySchedule:
           Type: Schedule

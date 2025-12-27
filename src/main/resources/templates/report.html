@@ -1,0 +1,195 @@
+<html>
+<head>
+    <style>
+        @page {
+            size: A4;
+            margin: 2cm;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 11pt;
+            color: #000;
+        }
+
+        h1, h2 {
+            color: #2c3e50;
+        }
+
+        h1 {
+            font-size: 22pt;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 14pt;
+            margin-top: 30px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 4px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            page-break-inside: avoid;
+        }
+
+        th, td {
+            border: 1px solid #999;
+            padding: 6px;
+            font-size: 10pt;
+        }
+
+        th {
+            background-color: #f0f0f0;
+            text-align: left;
+        }
+
+        tr {
+            page-break-inside: avoid;
+        }
+
+        .page-break {
+            page-break-after: always;
+        }
+
+        /* ========================= */
+        /* CAPA */
+        /* ========================= */
+        .cover {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 90vh;
+            text-align: center;
+        }
+
+        .cover h1 {
+            font-size: 28pt;
+            margin-bottom: 10px;
+        }
+
+        .cover .subtitle {
+            font-size: 14pt;
+            margin-bottom: 40px;
+            color: #555;
+        }
+
+        .cover-info p {
+            font-size: 11pt;
+            margin: 4px 0;
+        }
+
+        /* ========================= */
+        /* URGÊNCIA */
+        /* ========================= */
+        .urgency-high {
+            color: red;
+            font-weight: bold;
+        }
+
+        .urgency-medium {
+            color: orange;
+            font-weight: bold;
+        }
+
+        .urgency-low {
+            color: green;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ========================= -->
+<!-- CAPA -->
+<!-- ========================= -->
+<div class="cover">
+    <h1>Relatório Semanal de Feedbacks</h1>
+
+    <p class="subtitle">
+        Análise consolidada de feedbacks
+    </p>
+
+    <div class="cover-info">
+        <p><strong>Data de geração:</strong> {data}</p>
+        <p><strong>Total de feedbacks:</strong> {totalFeedbacks}</p>
+    </div>
+</div>
+
+<div class="page-break"></div>
+
+<!-- ========================= -->
+<!-- TABELA DE FEEDBACKS -->
+<!-- ========================= -->
+<h2>Lista de Feedbacks</h2>
+
+<table>
+    <thead>
+    <tr>
+        <th>Descrição</th>
+        <th>Nota</th>
+        <th>Urgência</th>
+        <th>Status</th>
+        <th>Data</th>
+    </tr>
+    </thead>
+    <tbody>
+    {#for feedback in feedbacks}
+        <tr>
+            <td>{feedback.descricao}</td>
+            <td>{feedback.nota}</td>
+            <td class="{feedback.urgency.cssClass}">
+                {feedback.urgency.label}
+            </td>
+            <td>{feedback.status}</td>
+            <td>{feedback.dataCriacao}</td>
+        </tr>
+    {/for}
+    </tbody>
+</table>
+
+<!-- ========================= -->
+<!-- FEEDBACKS POR DIA -->
+<!-- ========================= -->
+<h2>Feedbacks por dia</h2>
+<ul>
+    {#for entry in feedbacksPorDia.entrySet()}
+        <li>{entry.key}: {entry.value}</li>
+    {/for}
+</ul>
+
+<!-- ========================= -->
+<!-- FEEDBACKS POR URGÊNCIA -->
+<!-- ========================= -->
+<h2>Feedbacks por urgência</h2>
+<ul>
+    {#for entry in feedbacksPorUrgencia.entrySet()}
+        <li>
+            <span class="{entry.key.cssClass}">
+                {entry.key.label}
+            </span>
+            : {entry.value}
+        </li>
+    {/for}
+</ul>
+
+<!-- ========================= -->
+<!-- DISTRIBUIÇÃO DE NOTAS -->
+<!-- ========================= -->
+<h2>Distribuição de notas</h2>
+<ul>
+    {#for entry in feedbacksPorNota.entrySet()}
+        <li>Nota {entry.key}: {entry.value}</li>
+    {/for}
+</ul>
+
+<footer>
+    <p>Gerado automaticamente em {data}</p>
+</footer>
+
+</body>
+</html>
