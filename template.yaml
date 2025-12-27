@@ -1,27 +1,51 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: (fiap-feedback-report-generator) - Gerador de arquivo PDF de report
+Description: Serviço ReportGenerator - gera relatórios de feedbacks
+
+Globals:
+  Function:
+    Timeout: 60
+    Runtime: java17
+    MemorySize: 1024
 
 Resources:
+
+  ## =========================
+  ## Lambda - ReportGenerator
+  ## =========================
   ReportGeneratorFunction:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: ReportGenerator
-      Handler: report.ReportGenerator::handleRequest
-      Runtime: java17
-      CodeUri: ./src
-      MemorySize: 512
-      Timeout: 60
-      Policies:
-        - S3WritePolicy:
-            BucketName: !ImportValue ReportBucketName
+      CodeUri: target/fiap-feedback-report-generator.jar
+      Handler: report.ReportGeneratorWorker::handleRequest
       Environment:
         Variables:
+          FEEDBACK_TABLE: !ImportValue FeedbackTableName
           REPORT_BUCKET: !ImportValue ReportBucketName
+          REPORT_TOPIC_ARN: !ImportValue ReportTopicArn
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !ImportValue FeedbackTableName
+        - S3WritePolicy:
+            BucketName: !ImportValue ReportBucketName
+        - SNSPublishMessagePolicy:
+            TopicName: !ImportValue ReportTopicArn
+      Events:
+        WeeklySchedule:
+          Type: Schedule
+          Properties:
+            Schedule: cron(0 0 ? * SUN *)
+            Input: |
+              {
+                "reportType": "relatorio-semanal"
+              }
+
+
 
 Outputs:
-  ReportGeneratorArn:
+  ReportGeneratorFunctionArn:
     Description: ARN da função ReportGenerator
     Value: !GetAtt ReportGeneratorFunction.Arn
     Export:
-      Name: ReportGeneratorArn
+      Name: ReportGeneratorFunctionArn

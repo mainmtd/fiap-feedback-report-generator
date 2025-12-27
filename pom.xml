@@ -70,11 +70,25 @@
         <dependency>
             <groupId>software.amazon.awssdk</groupId>
             <artifactId>s3</artifactId>
-            <version>2.20.1</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>dynamodb</artifactId>
+            <version>2.20.0</version>
+        </dependency>
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>sns</artifactId>
+            <version>2.20.0</version>
+        </dependency>
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>dynamodb-enhanced</artifactId>
+            <version>2.20.0</version>
         </dependency>
     </dependencies>
 
@@ -95,6 +109,9 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <finalName>fiap-feedback-report-generator</finalName>
+                </configuration>
             </plugin>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -135,6 +152,7 @@
                 </configuration>
             </plugin>
         </plugins>
+        <finalName>fiap-feedback-report-generator</finalName>
     </build>
 
     <profiles>

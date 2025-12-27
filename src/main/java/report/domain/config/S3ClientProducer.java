@@ -1,4 +1,4 @@
-package report;
+package report.domain.config;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Produces;
