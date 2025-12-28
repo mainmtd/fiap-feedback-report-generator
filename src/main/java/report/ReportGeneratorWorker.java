@@ -56,11 +56,12 @@ public class ReportGeneratorWorker implements RequestHandler<JsonNode, Void> {
         String s3Url = buildS3Url(bucket, key);
 
         String topicArn = System.getenv("REPORT_TOPIC_ARN");
+        String titulo = String.format("Relatório Semanal de Feedbacks %s - %s", start, end);
+        String corpo = String.format("Seu relatório de Feedbacks da semana %s a %s. Contendo os feedbacks, quantidade de feedback por dia, urgência e nota.", start, end);
         String payload = String.format(
-                "{\"subject\":\"%s\",\"body\":\"Relatório de Feedbacks da semana %s a %s\",\"s3Url\":\"%s\"}",
-                reportType,
-                start,
-                end,
+                "{\"subject\":\"%s\",\"body\":\"%s\",\"s3Url\":\"%s\"}",
+                titulo,
+                corpo,
                 s3Url
         );
 
