@@ -1,6 +1,7 @@
 package report.domain.report;
 
 import report.domain.urgency.UrgencyLevel;
+import report.util.LocalDateUtil;
 
 public class FeedbackReportItem {
     private final String id;
@@ -37,6 +38,10 @@ public class FeedbackReportItem {
 
     public String getDataCriacao() {
         return dataCriacao;
+    }
+
+    public String getDataCriacaoFormatted(){
+        return LocalDateUtil.format(getDataCriacao());
     }
 
     public String getStatus() {

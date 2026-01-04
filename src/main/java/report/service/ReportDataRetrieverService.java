@@ -35,6 +35,7 @@ public class ReportDataRetrieverService {
         Map<String, Long> countByStatus = new HashMap<>();
         Map<UrgencyLevel, Long> countByUrgency = new HashMap<>();
         Map<Integer, Long> countByNota = new HashMap<>();
+        double totalScore = 0.0;
 
         for (FeedbackReportItem item : feedbacks) {
 
@@ -53,6 +54,10 @@ public class ReportDataRetrieverService {
             countByDay.put(day, countByDay.getOrDefault(day, 0L) + 1);
             countByStatus.put(item.getStatus(), countByStatus.getOrDefault(item.getStatus(), 0L) + 1);
             countByNota.put(item.getNota(), countByNota.getOrDefault(item.getNota(), 0L) + 1);
+            
+            if (item.getNota() != null) {
+                totalScore += item.getNota();
+            }
 
             if (item.getUrgency() != null) {
                 countByUrgency.put(
@@ -61,15 +66,18 @@ public class ReportDataRetrieverService {
                 );
             }
         }
+        
+        Double averageScore = feedbacks.isEmpty() ? 0.0 : totalScore / feedbacks.size();
 
         LOGGER.infov(
-                "Resumo do relatório: dias={0}, status={1}, notas={2}, urgencias={3}",
+                "Resumo do relatório: dias={0}, status={1}, notas={2}, urgencias={3}, media={4}",
                 countByDay.size(),
                 countByStatus.size(),
                 countByNota.size(),
-                countByUrgency.size()
+                countByUrgency.size(),
+                averageScore
         );
 
-        return new Report(feedbacks, countByDay, countByStatus, countByUrgency, countByNota);
+        return new Report(feedbacks, countByDay, countByStatus, countByUrgency, countByNota, averageScore);
     }
 }

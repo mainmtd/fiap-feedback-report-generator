@@ -63,7 +63,7 @@ public class FeedbackRepository {
                     fb.getId(),
                     fb.getDescricao(),
                     fb.getNota(),
-                    LocalDateUtil.format(fb.getDataCriacao()),
+                    fb.getDataCriacao(),
                     fb.getStatus()
             ));
         }

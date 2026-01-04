@@ -29,7 +29,8 @@ public class ReportGeneratorService {
                 report.getFeedbacks(),
                 report.getCountByDay(),
                 report.getCountByUrgency(),
-                report.getCountByNota()
+                report.getCountByNota(),
+                report.getAverageScore()
         );
 
         String bucket = System.getenv("REPORT_BUCKET");

@@ -21,7 +21,8 @@ public class PdfUtil {
     public ByteArrayOutputStream generateReport(List<FeedbackReportItem> feedbacks,
                                                 Map<String, Long> countByDay,
                                                 Map<UrgencyLevel, Long> countByUrgency,
-                                                Map<Integer, Long> countByNota) {
+                                                Map<Integer, Long> countByNota,
+                                                Double averageScore) {
 
         String html = report
                 .data("totalFeedbacks", feedbacks.size())
@@ -29,6 +30,7 @@ public class PdfUtil {
                 .data("feedbacksPorDia", countByDay)
                 .data("feedbacksPorUrgencia", countByUrgency)
                 .data("feedbacksPorNota", countByNota)
+                .data("mediaNota", String.format("%.2f", averageScore))
                 .data("data", LocalDateUtil.format(LocalDate.now()))
                 .render();
 
