@@ -10,6 +10,7 @@ import org.jboss.logging.Logger;
 import report.domain.report.Report;
 import report.service.ReportDataRetrieverService;
 import report.service.ReportGeneratorService;
+import report.util.LocalDateUtil;
 import software.amazon.awssdk.services.sns.SnsClient;
 import software.amazon.awssdk.services.sns.model.PublishRequest;
 
@@ -55,9 +56,11 @@ public class ReportGeneratorWorker implements RequestHandler<JsonNode, Void> {
         String bucket = System.getenv("REPORT_BUCKET");
         String s3Url = buildS3Url(bucket, key);
 
+        String startReportDate = LocalDateUtil.format(start);
+        String endReportDate = LocalDateUtil.format(end);
         String topicArn = System.getenv("REPORT_TOPIC_ARN");
-        String titulo = String.format("Relatório Semanal de Feedbacks %s - %s", start, end);
-        String corpo = String.format("Seu relatório de Feedbacks da semana %s a %s. Contendo os feedbacks, quantidade de feedback por dia, urgência e nota.", start, end);
+        String titulo = String.format("Relatório Semanal de Feedbacks %s - %s", startReportDate, endReportDate);
+        String corpo = String.format("Seu relatório de Feedbacks da semana %s a %s. Contendo os feedbacks, quantidade de feedback por dia, urgência e nota.", startReportDate, endReportDate);
         String payload = String.format(
                 "{\"subject\":\"%s\",\"body\":\"%s\",\"s3Url\":\"%s\"}",
                 titulo,

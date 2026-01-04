@@ -11,8 +11,8 @@ public class Feedback {
     private String dataCriacao;
     private String status;
 
-    public Feedback() {
-    }
+    @Deprecated
+    public Feedback() {}
 
     @DynamoDbPartitionKey
     public String getId() {

@@ -23,10 +23,27 @@ public class FeedbackReportItem {
         this.urgency = UrgencyLevel.fromScore(nota);
     }
 
-    public String getId() { return id; }
-    public String getDescricao() { return descricao; }
-    public Integer getNota() { return nota; }
-    public String getDataCriacao() { return dataCriacao; }
-    public String getStatus() { return status; }
-    public UrgencyLevel getUrgency() { return urgency; }
+    public String getId() {
+        return id;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public Integer getNota() {
+        return nota;
+    }
+
+    public String getDataCriacao() {
+        return dataCriacao;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public UrgencyLevel getUrgency() {
+        return urgency;
+    }
 }

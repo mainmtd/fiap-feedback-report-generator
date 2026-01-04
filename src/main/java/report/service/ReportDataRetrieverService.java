@@ -7,6 +7,7 @@ import report.domain.report.FeedbackReportItem;
 import report.domain.report.Report;
 import report.domain.urgency.UrgencyLevel;
 import report.repository.FeedbackRepository;
+import report.util.LocalDateUtil;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -47,7 +48,7 @@ public class ReportDataRetrieverService {
             );
 
             LocalDateTime created = LocalDateTime.parse(item.getDataCriacao(), DateTimeFormatter.ISO_DATE_TIME);
-            String day = created.toLocalDate().toString();
+            String day = LocalDateUtil.format(created.toLocalDate());
 
             countByDay.put(day, countByDay.getOrDefault(day, 0L) + 1);
             countByStatus.put(item.getStatus(), countByStatus.getOrDefault(item.getStatus(), 0L) + 1);
