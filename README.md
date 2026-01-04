@@ -70,10 +70,16 @@ flowchart LR
     ```bash
     sam deploy
     ```
+    
+2.  **Remove os recursos AWS criados:**
+    ```bash
+    sam delete --stack-name report-generator
+    ```
+
 ## 🧪 Como Testar
 
 Como este serviço é iniciado pelo trigger de Event Bridge, ele não possui um endpoint HTTP direto. 
-Para testá-lo, Você deve ajustar o cron do template.yaml localizado em `ReportGeneratorFunction > Events > WeeklySchedule > Properties > Schedule`.
+Para testá-lo, Você deve ajustar o cron do `template.yaml` localizado em `ReportGeneratorFunction > Events > WeeklySchedule > Properties > Schedule`.
 Colocando um período testável (por exemplo a cada 5 minutos).
 
 Outra alternativa é executar a lambda diretamente fornecendo as informações necessárias para que ele gere um PDF no input
