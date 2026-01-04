@@ -7,7 +7,7 @@ Ele é responsável por gerar o arquivo PDF com o relatório semanal, buscando a
 
 O serviço opera em arquitetura **Serverless** utilizando AWS Lambda e Quarkus. 
 Ele consome o evento enviado pelo event bridge, busca as informações de Feedbacks da semana anterior no DynamoDB, prepara um arquivo de relatório 
-PDF com as informações fornecidas e envia para um bucket S3. Por fim, ele publica uma mensagem no tópico SNS para ser consumido pelo serviço de e-mail, contendo o título, o corpo da mensagem e o link para o arquivo no bucket S3
+PDF com as informações fornecidas e envia para um bucket S3. Por fim, ele publica uma mensagem no tópico SNS para ser consumido pelo serviço de e-mail, contendo o título, o corpo da mensagem e o link para o arquivo no bucket S3.
 
 ### Arquitetura da Solução
 
@@ -73,7 +73,7 @@ flowchart LR
 ## 🧪 Como Testar
 
 Como este serviço é iniciado pelo trigger de Event Bridge, ele não possui um endpoint HTTP direto. 
-Para testá-lo, Você deve ajustar o cron do template.yaml localizado em ReportGeneratorFunction > Events > WeeklySchedule > Properties > Schedule.
+Para testá-lo, Você deve ajustar o cron do template.yaml localizado em `ReportGeneratorFunction > Events > WeeklySchedule > Properties > Schedule`.
 Colocando um período testável (por exemplo a cada 5 minutos).
 
 Outra alternativa é executar a lambda diretamente fornecendo as informações necessárias para que ele gere um PDF no input

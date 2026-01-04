@@ -1,6 +1,7 @@
 package report.domain.report;
 
 import report.domain.urgency.UrgencyLevel;
+import report.util.LocalDateUtil;
 
 public class FeedbackReportItem {
     private final String id;
@@ -23,10 +24,31 @@ public class FeedbackReportItem {
         this.urgency = UrgencyLevel.fromScore(nota);
     }
 
-    public String getId() { return id; }
-    public String getDescricao() { return descricao; }
-    public Integer getNota() { return nota; }
-    public String getDataCriacao() { return dataCriacao; }
-    public String getStatus() { return status; }
-    public UrgencyLevel getUrgency() { return urgency; }
+    public String getId() {
+        return id;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public Integer getNota() {
+        return nota;
+    }
+
+    public String getDataCriacao() {
+        return dataCriacao;
+    }
+
+    public String getDataCriacaoFormatted(){
+        return LocalDateUtil.format(getDataCriacao());
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public UrgencyLevel getUrgency() {
+        return urgency;
+    }
 }

@@ -134,7 +134,7 @@
         <th>Nota</th>
         <th>Urgência</th>
         <th>Status</th>
-        <th>Data</th>
+        <th>Data de Envio</th>
     </tr>
     </thead>
     <tbody>
@@ -146,7 +146,7 @@
                 {feedback.urgency.label}
             </td>
             <td>{feedback.status}</td>
-            <td>{feedback.dataCriacao}</td>
+            <td>{feedback.dataCriacaoFormatted}</td>
         </tr>
     {/for}
     </tbody>
@@ -186,6 +186,14 @@
         <li>Nota {entry.key}: {entry.value}</li>
     {/for}
 </ul>
+
+<!-- ========================= -->
+<!-- MEDIA DAS AVALIAÇÕES -->
+<!-- ========================= -->
+<h2>Média das avaliações</h2>
+<p>{mediaNota}</p>
+
+<br/>
 
 <footer>
     <p>Gerado automaticamente em {data}</p>
