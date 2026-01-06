@@ -14,10 +14,8 @@ import report.util.LocalDateUtil;
 import software.amazon.awssdk.services.sns.SnsClient;
 import software.amazon.awssdk.services.sns.model.PublishRequest;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.temporal.TemporalAdjusters;
 
 @ApplicationScoped
 @Named("reportGeneratorWorker")
@@ -39,25 +37,22 @@ public class ReportGeneratorWorker implements RequestHandler<JsonNode, Void> {
         String reportType = input.has("reportType") ? input.get("reportType").asText() : "relatorio-semanal";
 
         LocalDate today = LocalDate.now();
-        LocalDate lastSunday = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY));
-        LocalDate start = lastSunday.minusWeeks(1);
-        LocalDate end = lastSunday.minusDays(1);
 
         LOGGER.infov(
                 "Processing a geração do relatório de tipo {0} para o período de {1} à {2}",
                 reportType,
-                start,
-                end
+                today,
+                today
         );
 
-        Report report = reportDataRetrieverService.retrieveData(start.atStartOfDay(), end.atTime(LocalTime.MAX));
+        Report report = reportDataRetrieverService.retrieveData(today.atStartOfDay(), today.atTime(LocalTime.MAX));
 
         String key = reportGeneratorService.generateReport(report);
         String bucket = System.getenv("REPORT_BUCKET");
         String s3Url = buildS3Url(bucket, key);
 
-        String startReportDate = LocalDateUtil.format(start);
-        String endReportDate = LocalDateUtil.format(end);
+        String startReportDate = LocalDateUtil.format(today);
+        String endReportDate = LocalDateUtil.format(today);
         String topicArn = System.getenv("REPORT_TOPIC_ARN");
         String titulo = String.format("Relatório Semanal de Feedbacks %s - %s", startReportDate, endReportDate);
         String corpo = String.format("Seu relatório de Feedbacks da semana %s a %s. Contendo os feedbacks, quantidade de feedback por dia, urgência e nota.", startReportDate, endReportDate);

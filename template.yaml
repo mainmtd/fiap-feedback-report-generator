@@ -37,13 +37,13 @@ Resources:
                 - sns:Publish
               Resource: !ImportValue ReportTopicArn
       Events:
-        WeeklySchedule:
+        DemoSchedule:
           Type: Schedule
           Properties:
-            Schedule: cron(0 0 ? * SUN *)
+            Schedule: rate(10 minutes)
             Input: |
               {
-                "reportType": "relatorio-semanal"
+                "reportType": "relatorio-demo"
               }
 
 
